@@ -3,76 +3,7 @@
     {
       "boot_wait": "60s",
       "communicator": "winrm",
-      "cpus": 2,
-      "disk_size": "{{user `disk_size`}}",
-      "enable_secure_boot": true,
-      "enable_virtualization_extensions": true,
-      "floppy_files": [
-        "{{user `autounattend`}}",
-        "./floppy/WindowsPowershell.lnk",
-        "./scripts/disable-screensaver.ps1",
-        "./scripts/disable-winrm.ps1",
-        "./scripts/docker/enable-winrm.ps1",
-        "./scripts/docker/2016/install-containers-feature.ps1",
-        "./scripts/microsoft-updates.bat",
-        "./scripts/win-updates.ps1"
-      ],
-      "guest_additions_mode": "disable",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "iso_url": "{{user `iso_url`}}",
-      "memory": 2048,
-      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "switch_name": "{{user `hyperv_switchname`}}",
-      "type": "hyperv-iso",
-      "vm_name": "WindowsServer1809Docker",
-      "winrm_password": "vagrant",
-      "winrm_timeout": "{{user `winrm_timeout`}}",
-      "winrm_username": "vagrant"
-    },
-    {
-      "boot_wait": "60s",
-      "communicator": "winrm",
-      "cpus": 2,
-      "disk_adapter_type": "lsisas1068",
-      "disk_size": "{{user `disk_size`}}",
-      "disk_type_id": "{{user `disk_type_id`}}",
-      "floppy_files": [
-        "{{user `autounattend`}}",
-        "./floppy/WindowsPowershell.lnk",
-        "./scripts/disable-screensaver.ps1",
-        "./scripts/disable-winrm.ps1",
-        "./scripts/docker/enable-winrm.ps1",
-        "./scripts/docker/2016/install-containers-feature.ps1",
-        "./scripts/microsoft-updates.bat",
-        "./scripts/win-updates.ps1"
-      ],
-      "guest_os_type": "windows9srv-64",
-      "headless": "{{user `headless`}}",
-      "iso_checksum": "{{user `iso_checksum`}}",
-      "iso_checksum_type": "{{user `iso_checksum_type`}}",
-      "iso_url": "{{user `iso_url`}}",
-      "memory": 2048,
-      "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
-      "type": "vmware-iso",
-      "version": 14,
-      "vm_name": "WindowsServer1809Docker",
-      "vmx_data": {
-        "RemoteDisplay.vnc.enabled": "false",
-        "RemoteDisplay.vnc.port": "5900",
-        "vhv.enable": "{{user `vhv_enable`}}"
-      },
-      "vmx_remove_ethernet_interfaces": true,
-      "vnc_port_max": 5980,
-      "vnc_port_min": 5900,
-      "winrm_password": "vagrant",
-      "winrm_timeout": "{{user `winrm_timeout`}}",
-      "winrm_username": "vagrant"
-    },
-    {
-      "boot_wait": "60s",
-      "communicator": "winrm",
-      "cpus": 2,
+      "cpus": 4,
       "disk_size": "{{user `disk_size`}}",
       "floppy_files": [
         "{{user `autounattend`}}",
@@ -90,7 +21,7 @@
       "iso_checksum": "{{user `iso_checksum`}}",
       "iso_checksum_type": "{{user `iso_checksum_type`}}",
       "iso_url": "{{user `iso_url`}}",
-      "memory": 2048,
+      "memory": 8196,
       "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
       "type": "virtualbox-iso",
       "vm_name": "WindowsServer1809Docker",
@@ -155,6 +86,78 @@
         "./scripts/compact.bat"
       ],
       "type": "windows-shell"
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\helpers.psm1",
+      "destination": "C:\\Users\\Administrator\\helpers.psm1"
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\expand_partition.ps1",
+      "destination": "C:\\Users\\Administrator\\expand_partition.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": [ "Powershell -NonInteractive -File \"C:\\Users\\Administrator\\expand_partition.ps1\"" ]
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\upgrade_docker.ps1",
+      "destination": "C:\\Users\\Administrator\\upgrade_docker.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": [ "Powershell -NonInteractive -File \"C:\\Users\\Administrator\\upgrade_docker.ps1\"" ]
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\install_bsdtar.ps1",
+      "destination": "C:\\Users\\Administrator\\install_bsdtar.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": [ "Powershell -NonInteractive -File \"C:\\Users\\Administrator\\install_bsdtar.ps1\"" ]
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\install_teamcity_agent.ps1",
+      "destination": "C:\\Users\\Administrator\\install_teamcity_agent.ps1"
+    },
+    {
+      "type": "powershell",
+      "inline": [ "Powershell -NonInteractive -File \"C:\\Users\\Administrator\\install_teamcity_agent.ps1\"" ]
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\install_teamcity_agent.config",
+      "destination": "C:\\BuildAgent\\conf\\buildAgent.properties"
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\install_chocolatey.ps1",
+      "destination": "C:\\Users\\Administrator\\install_chocolatey.ps1"
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\install_packages.ps1",
+      "destination": "C:\\Users\\Administrator\\install_packages.ps1"
+    },
+    {
+      "type": "file",
+      "source": "C:\\kote\\work\\packer-windows\\teamcity-agent-master\\windows-agent\\chocoPackages.json",
+      "destination": "C:\\Users\\Administrator\\chocoPackages.json"
+    },
+    {
+      "type": "powershell",
+      "inline": [
+              "Powershell -NonInteractive -File \"C:\\Users\\Administrator\\install_chocolatey.ps1\"",
+              "Powershell -NonInteractive -File \"C:\\Users\\Administrator\\install_packages.ps1\" -json \"C:\\Users\\Administrator\\chocoPackages.json\""
+      ]
+    },
+    {
+      "type": "powershell",
+      "inline": [ "Powershell -NonInteractive pip3 install virtualenv" ]
     }
   ],
   "variables": {
@@ -165,9 +168,9 @@
     "docker_provider": "ee",
     "docker_version": "18-09-6",
     "headless": "false",
-    "iso_checksum": "af1edc51f119c39d4eb56bcd9500d1f5ae57c0fbdf6c90ee4ecb535fe82ff0d6",
+    "iso_checksum": "f1b44b8c78a5533dccdea735aefe9b2fc2a607aced92ac6455be3b616f88e353",
     "iso_checksum_type": "sha256",
-    "iso_url": "https://download.my.visualstudio.com/db/en_windows_server_version_1809_x64_dvd_92d11ba1.iso",
+    "iso_url": "c:/kote/work/en_windows_server_version_1809_updated_march_2019_x64_dvd_7aa55a22.iso",
     "manually_download_iso_from": "https://my.visualstudio.com/Downloads?q=Windows%20Server,%20version%201809",
     "restart_timeout": "5m",
     "vhv_enable": "true",
